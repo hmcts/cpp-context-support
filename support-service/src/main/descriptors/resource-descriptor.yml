@@ -1,0 +1,55 @@
+--
+resource_descriptor:
+  spec_version: '1.0.0'
+  version: '${project.version}'
+
+  resources:
+    - name: java:/app/support-service/DS.eventstore
+      type: xa-datasource
+      setup:
+        - type: liquibase
+          maven:
+            groupId: uk.gov.justice.services
+            artifactId: event-repository-liquibase
+            type: jar
+            version: '${cpp.framework.version}'
+        - type: liquibase
+          maven:
+            groupId: uk.gov.justice.services
+            artifactId: aggregate-snapshot-repository-liquibase
+            type: jar
+            version: '${project.version}'
+
+    - name: java:/DS.support
+      type: xa-datasource
+      setup:
+        - type: liquibase
+          maven:
+            groupId: uk.gov.justice.services
+            artifactId: event-buffer-liquibase
+            type: jar
+            version: '${cpp.framework.version}'
+        - type: liquibase
+          maven:
+            groupId: uk.gov.moj.cpp.support
+            artifactId: support-viewstore-liquibase
+            type: jar
+            version: '${project.version}'
+
+    - name: support.handler.command
+      type: queue
+    - name: support.event
+      type: topic
+    - name: public.event
+      type: topic
+
+  services:
+    # Support provides these service mappings
+    - name: 'support-service'
+      id: 'support_service'
+      target: '/support-service'
+      map:
+        - '/support-command-api'
+        - '/support-command-handler'
+        - '/support-event-processor'
+      matcher: '/support-[^/]+'

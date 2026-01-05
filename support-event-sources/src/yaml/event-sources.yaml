@@ -1,0 +1,10 @@
+event_sources:
+  - name: support.event.source
+    is_default: true
+    location:
+      jms_uri:  jms:topic:support.event
+      rest_uri: http://localhost:8080/support-service/event-source-api/rest
+      data_source: java:/app/support-service/DS.eventstore
+  - name: public.event.source
+    location:
+      jms_uri:  jms:topic:public.event

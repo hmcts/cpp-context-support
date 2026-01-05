@@ -1,0 +1,12 @@
+#%RAML 0.8
+title: Material - Command Handler
+version: v1
+
+baseUri: message://command/handler/message/support
+
+/support.handler.command:
+  post:
+    body:
+        application/vnd.support.command.handler.send-feedback+json:
+            schema: !include json/schema/support.command.handler.send-feedback.json
+            example: !include json/support.command.handler.send-feedback.json

@@ -1,0 +1,33 @@
+#%RAML 0.8
+title: Support Query Api
+version: v0.1
+protocols: [ HTTP, HTTPS ]
+
+baseUri: http://localhost:8080/support-query-api/query/api/rest/support
+
+/feedback:
+  get:
+    description: |
+      Returns Feedback events based on a date-time range or by Case Id.
+      ...
+      (mapping):
+        responseType: application/vnd.support.feedback-search-results+json
+        name: support.find-feedback
+      ...
+    queryParameters:
+      from:
+        type: string
+        required: false
+      to:
+        type: string
+        required: false
+      caseId:
+        type: string
+        required: false
+    responses:
+      200:
+        body:
+          application/vnd.support.feedback-search-results+json:
+            schema: !include json/schema/support.query.api.feedback-search-results.json
+            example: !include json/support.query.api.feedback-search-results.json
+

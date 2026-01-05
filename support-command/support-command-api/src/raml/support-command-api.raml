@@ -1,0 +1,27 @@
+#%RAML 0.8
+title: Support - Command API
+
+baseUri: http://localhost:8080/support-command-api/command/api/rest/support
+
+/feedback/{feedbackId}:
+  uriParameters:
+    feedbackId:
+      description: The Stream id of the request. A randomly generated UUID
+  post:
+      description: |
+        ...
+        (mapping):
+            requestType: application/vnd.support.command.api.send-feedback+json
+            name: support.command.api.send-feedback
+        ...
+      body:
+        application/vnd.support.command.api.send-feedback+json:
+          example:
+            !include json/support.command.api.send-feedback.json
+          schema:
+            !include json/schema/support.command.api.send-feedback.json
+      responses:
+        500:
+          description: Internal Server Error
+        202:
+          description: Accepted

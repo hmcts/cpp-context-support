@@ -1,0 +1,10 @@
+subscriptions_descriptor:
+  spec_version: 1.0.0
+  service: support
+  service_component: EVENT_LISTENER
+  subscriptions:
+    - name: event listener subscription
+      events:
+        - name: support.event.feedback-received
+          schema_uri: http://cpp.moj.gov.uk/support/event/support.event.feedback-received.json
+      event_source_name: support.event.source
