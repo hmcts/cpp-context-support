@@ -5,7 +5,7 @@
     <parent>
         <artifactId>support-event</artifactId>
         <groupId>uk.gov.moj.cpp.support</groupId>
-        <version>17.0.10</version>
+        <version>17.0.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>support-event-listener</artifactId>
