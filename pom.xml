@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>uk.gov.moj.cpp.common</groupId>
+        <artifactId>service-parent-pom</artifactId>
+        <version>17.103.3</version>
+    </parent>
+
+    <groupId>uk.gov.moj.cpp.support</groupId>
+    <artifactId>support-parent</artifactId>
+    <version>17.0.10-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Support Context - Parent Module</name>
+
+    <properties>
+        <stream-transformation-tool-api.version>7.0.0</stream-transformation-tool-api.version>
+        <jgitflow.maven.developBranchName>main</jgitflow.maven.developBranchName>
+
+        <!-- downgrade h2 version from the version in common-bom as the later version requires work on the deltaspike integration tests -->
+        <h2.version>1.4.196</h2.version>
+
+    </properties>
+
+    <modules>
+        <module>support-json</module>
+        <module>support-command</module>
+        <module>support-domain</module>
+        <module>support-event</module>
+        <module>support-integration-test</module>
+        <module>support-service</module>
+        <module>support-viewstore</module>
+        <module>support-query</module>
+        <module>support-event-sources</module>
+        <module>support-healthchecks</module>
+    </modules>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>uk.gov.justice</groupId>
+                <artifactId>stream-transformation-tool-anonymise</artifactId>
+                <version>${stream-transformation-tool-api.version}</version>
+            </dependency>
+
+            <!-- downgrade h2 version from the version in common-bom as the later version requires work on the deltaspike integration tests -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archiveClasses>true</archiveClasses>
+                    <attachClasses>true</attachClasses>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

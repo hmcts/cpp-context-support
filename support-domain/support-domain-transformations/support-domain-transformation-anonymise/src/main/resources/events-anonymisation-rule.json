@@ -1,0 +1,10 @@
+{
+  "events": [
+    {
+      "eventName": "support.event.feedback-received",
+      "fieldsToBeIgnored": [
+        "$.rating"
+      ]
+    }
+  ]
+}
