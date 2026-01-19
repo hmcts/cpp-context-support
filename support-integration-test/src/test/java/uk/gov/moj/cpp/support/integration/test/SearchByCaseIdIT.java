@@ -70,6 +70,7 @@ public class SearchByCaseIdIT {
     @BeforeEach
     public void cleanEventLogTable() {
         databaseCleaner.cleanEventLogTable(CONTEXT_NAME);
+        databaseCleaner.cleanProcessedEventTable(CONTEXT_NAME);
         databaseCleaner.cleanViewStoreTables(CONTEXT_NAME, "feedback");
     }
 
