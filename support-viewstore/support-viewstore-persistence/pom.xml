@@ -5,7 +5,7 @@
     <parent>
         <artifactId>support-viewstore</artifactId>
         <groupId>uk.gov.moj.cpp.support</groupId>
-        <version>17.104.12-SNAPSHOT</version>
+        <version>17.104.11</version>
     </parent>
 
     <artifactId>support-viewstore-persistence</artifactId>
