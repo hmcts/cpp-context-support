@@ -5,7 +5,7 @@ import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static java.time.ZonedDateTime.now;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static javax.ws.rs.core.Response.Status.ACCEPTED;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.CoreMatchers.is;
@@ -73,6 +73,7 @@ public class SendFeedbackIT {
     @BeforeEach
     public void cleanEventLogTable() {
         databaseCleaner.cleanEventLogTable(CONTEXT_NAME);
+        databaseCleaner.cleanProcessedEventTable(CONTEXT_NAME);
         databaseCleaner.cleanViewStoreTables(CONTEXT_NAME, "feedback");
     }
 
