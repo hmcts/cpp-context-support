@@ -18,7 +18,7 @@
         <jgitflow.maven.developBranchName>main</jgitflow.maven.developBranchName>
 
         <!-- downgrade h2 version from the version in common-bom as the later version requires work on the deltaspike integration tests -->
-        <h2.version>1.4.196</h2.version>
+        <h2.version>2.1.210</h2.version>
 
     </properties>
 
