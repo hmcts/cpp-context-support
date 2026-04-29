@@ -5,31 +5,35 @@ import static java.time.ZonedDateTime.now;
 import static java.time.ZonedDateTime.of;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.nullValue;
 
-import uk.gov.justice.services.test.utils.persistence.BaseTransactionalJunit4Test;
 import uk.gov.moj.cpp.support.entity.Feedback;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import javax.inject.Inject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import uk.gov.justice.services.test.utils.persistence.HibernateTestEntityManagerProvider;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+public class FeedbackRepositoryTest {
 
-@RunWith(CdiTestRunner.class)
-public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
+    @RegisterExtension
+    static HibernateTestEntityManagerProvider provider = new HibernateTestEntityManagerProvider("support");
 
-    @Inject
-    @SuppressWarnings("CdiInjectionPointsInspection")
     private FeedbackRepository feedbackRepository;
 
+    @BeforeEach
+    public void openEntityManagerAndCreateRepository() {
+        feedbackRepository = new FeedbackRepository();
+        provider.injectEntityManagerInto(feedbackRepository);
+    }
+
     @Test
-    public void shouldSaveAndFindAFeedback() throws Exception {
+    public void shouldSaveAndFindAFeedback() {
 
         final UUID feedbackId = randomUUID();
         final ZonedDateTime dateReceived = now();
@@ -37,7 +41,7 @@ public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
 
         feedbackRepository.save(feedback);
 
-        final Feedback foundFeedback = feedbackRepository.findBy(feedbackId);
+        final Feedback foundFeedback = feedbackRepository.findBy(feedbackId).orElseThrow();
 
         assertThat(foundFeedback.getFeedbackId(), is(feedback.getFeedbackId()));
         assertThat(foundFeedback.getComment(), is(feedback.getComment()));
@@ -48,7 +52,7 @@ public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
     }
 
     @Test
-    public void shouldSaveAndFindAFeedbackWithOnlyRequiredValues() throws Exception {
+    public void shouldSaveAndFindAFeedbackWithOnlyRequiredValues() {
 
         final UUID feedbackId = randomUUID();
         final ZonedDateTime dateReceived = now();
@@ -56,7 +60,7 @@ public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
 
         feedbackRepository.save(feedback);
 
-        final Feedback foundFeedback = feedbackRepository.findBy(feedbackId);
+        final Feedback foundFeedback = feedbackRepository.findBy(feedbackId).orElseThrow();
 
         assertThat(foundFeedback.getFeedbackId(), is(feedback.getFeedbackId()));
         assertThat(foundFeedback.getComment(), is(nullValue()));
@@ -67,7 +71,7 @@ public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
     }
 
     @Test
-    public void shouldFindByDateRange() throws Exception {
+    public void shouldFindByDateRange() {
 
         final UUID feedbackId_1 = randomUUID();
         final UUID feedbackId_2 = randomUUID();
@@ -92,7 +96,7 @@ public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
     }
 
     @Test
-    public void shouldFindByCaseId() throws Exception {
+    public void shouldFindByCaseId() {
 
         final UUID caseId = randomUUID();
         final UUID otherCaseId = randomUUID();
@@ -115,7 +119,7 @@ public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
     }
 
     @Test
-    public void shouldFindByCaseIdAndDateRange() throws Exception {
+    public void shouldFindByCaseIdAndDateRange() {
 
         final UUID caseId = randomUUID();
         final UUID otherCaseId = randomUUID();
@@ -127,7 +131,7 @@ public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
         final ZonedDateTime dateReceived_2 = of(2018, 2, 23, 10, 10, 10, 10, UTC);
 
         feedbackRepository.save(aFeedback(feedbackId_1, dateReceived_1, caseId));
-        feedbackRepository.save(aFeedback(feedbackId_2,dateReceived_2, caseId));
+        feedbackRepository.save(aFeedback(feedbackId_2, dateReceived_2, caseId));
         feedbackRepository.save(aFeedback(feedbackId_3, dateReceived_2, otherCaseId));
 
         final ZonedDateTime from = of(2018, 2, 23, 7, 7, 7, 7, UTC);
@@ -141,34 +145,10 @@ public class FeedbackRepositoryTest extends BaseTransactionalJunit4Test {
     }
 
     private Feedback aFeedback(final UUID feedbackId, final ZonedDateTime dateReceived, final UUID caseId) {
-        final String comment = "a comment";
-        final String refUrl = "www.gerritt.com";
-        final String refService = "TechPod";
-        
-        return new Feedback(
-                feedbackId,
-                comment,
-                refUrl,
-                refService,
-                1,
-                dateReceived,
-                caseId
-        );
+        return new Feedback(feedbackId, "a comment", "www.gerritt.com", "TechPod", 1, dateReceived, caseId);
     }
 
     private Feedback aFeedbackWithDefaultValues(final UUID feedbackId, final ZonedDateTime dateReceived) {
-        final String comment = null;
-        final String refUrl = null;
-        final String refService = null;
-        final UUID caseId = null;
-        return new Feedback(
-                feedbackId,
-                comment,
-                refUrl,
-                refService,
-                1,
-                dateReceived,
-                caseId
-        );
+        return new Feedback(feedbackId, null, null, null, 1, dateReceived, null);
     }
 }
