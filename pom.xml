@@ -4,12 +4,12 @@
     <parent>
         <groupId>uk.gov.moj.cpp.common</groupId>
         <artifactId>service-parent-pom</artifactId>
-        <version>21.0.0-SNAPSHOT</version>
+        <version>21.0.0-M1-SNAPSHOT</version>
     </parent>
 
     <groupId>uk.gov.moj.cpp.support</groupId>
     <artifactId>support-parent</artifactId>
-    <version>21.0.0-SNAPSHOT</version>
+    <version>21.0.0-M1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Support Context - Parent Module</name>
 
