@@ -7,7 +7,7 @@ import uk.gov.moj.cpp.support.entity.Feedback;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 
 public class FeedbackFactory {
 

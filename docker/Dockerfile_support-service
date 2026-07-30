@@ -4,8 +4,8 @@ FROM ${baseImageUri}:${baseImageTag}
 
 ARG version
 ARG mavenArtifactBaseUrl
-ARG framework_version=17.102.2
-ARG eventstore_version=17.102.3
+ARG framework_version
+ARG eventstore_version
 ARG wildfly_home=/opt/jboss/wildfly
 ARG wildfly_user=jboss
 ARG context_group_name=support
